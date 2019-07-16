@@ -29,4 +29,15 @@ public class EmployeeRepository {
     public Employee getEmployee(int id) {
         return employees.get(id);
     }
+
+    public List<Employee> getPageEmployees(int page, int pageSize) {
+        List<Employee> pageEmployees = new ArrayList<>();
+        List<Employee> employeeList = new ArrayList<>(employees.values());
+        int length = employeeList.size();
+        pageSize = pageSize * page > length ? length : pageSize;
+        for (int i = 0; i < pageSize; i++) {
+            pageEmployees.add(employeeList.get((page - 1) * pageSize + i));
+        }
+        return pageEmployees;
+    }
 }

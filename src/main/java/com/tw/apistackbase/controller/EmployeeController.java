@@ -3,10 +3,7 @@ package com.tw.apistackbase.controller;
 import com.tw.apistackbase.model.Employee;
 import com.tw.apistackbase.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,4 +22,10 @@ public class EmployeeController {
     public Employee getEmployee(@PathVariable int id) {
         return employeeService.getEmployee(id);
     }
+
+    @GetMapping("/employees{page}{pageSize}")
+    public List<Employee> getPageCompanies(@RequestParam int page, @RequestParam int pageSize) {
+        return employeeService.getPageEmployees(page, pageSize);
+    }
+
 }

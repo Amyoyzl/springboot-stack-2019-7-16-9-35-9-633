@@ -20,4 +20,8 @@ public class EmployeeService {
     public Employee getEmployee(int id) {
         return repository.getEmployee(id);
     }
+
+    public List<Employee> getPageEmployees(int page, int pageSize) {
+        return repository.getPageEmployees(page, pageSize);
+    }
 }
