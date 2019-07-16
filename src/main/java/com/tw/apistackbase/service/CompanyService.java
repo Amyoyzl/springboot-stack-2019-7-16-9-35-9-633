@@ -30,4 +30,8 @@ public class CompanyService {
         return companyRepository.getPageCompanies(page, pageSize);
     }
 
+    public Company createCompany (Company company) {
+        return companyRepository.createCompany(company);
+    }
+
 }

@@ -13,9 +13,10 @@ import java.util.Map;
 public class CompanyRepository {
 
     private static Map<Integer, Company> companies = new HashMap<>();
+    private static int id = 1;
 
     static {
-        companies.put(1, new Company("OOCL",
+        companies.put(id++, new Company("OOCL",
                 new Employee(1, "Steve", 34, "Male", 23000),
                 new Employee(2, "John", 23, "Male", 12000),
                 new Employee(2, "Jimmy", 23, "Male", 10000),
@@ -46,5 +47,9 @@ public class CompanyRepository {
             pageCompanies.add(companyList.get(page * pageSize + i));
         }
         return pageCompanies;
+    }
+
+    public Company createCompany(Company company) {
+        return companies.put(id++, company);
     }
 }

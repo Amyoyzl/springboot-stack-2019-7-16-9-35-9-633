@@ -34,4 +34,9 @@ public class CompanyController {
         return companyService.getPageCompanies(page, pageSize);
     }
 
+    @PostMapping("/companies")
+    public Company addCompany(@RequestBody Company company) {
+        return companyService.createCompany(company);
+    }
+
 }
