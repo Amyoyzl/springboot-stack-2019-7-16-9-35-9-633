@@ -22,7 +22,7 @@ public class CompanyRepository {
                 new Employee(2, "Jerry", 23, "Male", 10000),
                 new Employee(2, "Laura", 23, "Female", 10000),
                 new Employee(2, "Sean", 23, "Male", 10000)
-                ));
+        ));
     }
 
     public List<Company> findAll() {
@@ -35,5 +35,16 @@ public class CompanyRepository {
 
     public List<Employee> getEmployees(int id) {
         return companies.get(id).getEmployees();
+    }
+
+    public List<Company> getPageCompanies(int page, int pageSize) {
+        List<Company> pageCompanies = new ArrayList<>();
+        List<Company> companyList = new ArrayList<>(companies.values());
+        int length = companyList.size();
+        pageSize = pageSize * page > length ? length : pageSize;
+        for (int i = 0; i < pageSize; i++) {
+            pageCompanies.add(companyList.get(page * pageSize + i));
+        }
+        return pageCompanies;
     }
 }

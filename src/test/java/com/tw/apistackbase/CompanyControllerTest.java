@@ -64,4 +64,17 @@ public class CompanyControllerTest {
         result.andExpect(status().isOk()).andExpect(content().json("[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]"));
     }
 
+    @Test
+    public void should_return_companies_when_give_page_and_pageSize() throws Exception {
+        int page = 1, pageSize = 3;
+        Map<Integer, Company> companies = new HashMap<>();
+        companies.put(1, new Company("OOCL", new Employee(1, "Steve", 34, "Male", 23000)));
+
+        when(companyService.getPageCompanies(page, pageSize)).thenReturn(new ArrayList<>(companies.values()));
+        ResultActions result = mvc.perform(get("/companies?page={page}&&pageSize={pageSize}", page, pageSize));
+
+        result.andExpect(status().isOk()).andExpect(content().json("[{companyName: OOCL, employeesNumber: 1, employees:" +
+                "[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]}]"));
+    }
+
 }
