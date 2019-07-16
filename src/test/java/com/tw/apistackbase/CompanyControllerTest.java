@@ -52,4 +52,16 @@ public class CompanyControllerTest {
                 "[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]}"));
     }
 
+    @Test
+    public void should_return_corresponding_company_employees_when_give_a_company_id() throws Exception {
+        int id = 1;
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "Steve", 34, "Male", 23000));
+
+        when(companyService.getEmployees(id)).thenReturn(employees);
+        ResultActions result = mvc.perform(get("/companies/{id}/employees", id));
+
+        result.andExpect(status().isOk()).andExpect(content().json("[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]"));
+    }
+
 }

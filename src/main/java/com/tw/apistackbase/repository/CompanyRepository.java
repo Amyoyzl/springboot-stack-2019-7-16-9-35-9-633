@@ -32,4 +32,8 @@ public class CompanyRepository {
     public Company getById(int id) {
         return companies.get(id);
     }
+
+    public List<Employee> getEmployees(int id) {
+        return companies.get(id).getEmployees();
+    }
 }
