@@ -28,4 +28,9 @@ public class EmployeeController {
         return employeeService.getPageEmployees(page, pageSize);
     }
 
+    @GetMapping(path = "/employees", params = "gender")
+    public List<Employee> getEmployeesBySex(@RequestParam String gender) {
+        return employeeService.getEmployeesBySex(gender);
+    }
+
 }

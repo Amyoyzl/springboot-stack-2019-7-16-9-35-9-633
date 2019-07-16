@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class EmployeeRepository {
@@ -39,5 +40,9 @@ public class EmployeeRepository {
             pageEmployees.add(employeeList.get((page - 1) * pageSize + i));
         }
         return pageEmployees;
+    }
+
+    public List<Employee> getEmployeesBySex(String gender) {
+        return employees.values().stream().filter(employee -> employee.getGender() == gender).collect(Collectors.toList());
     }
 }

@@ -24,4 +24,8 @@ public class EmployeeService {
     public List<Employee> getPageEmployees(int page, int pageSize) {
         return repository.getPageEmployees(page, pageSize);
     }
+
+    public List<Employee> getEmployeesBySex(String gender) {
+        return repository.getEmployeesBySex(gender);
+    }
 }
