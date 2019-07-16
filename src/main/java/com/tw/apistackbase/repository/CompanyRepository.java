@@ -52,4 +52,9 @@ public class CompanyRepository {
     public Company createCompany(Company company) {
         return companies.put(id++, company);
     }
+
+    public Company updateCompany(Company company, int id) {
+        companies.remove(id);
+        return companies.put(id, company);
+    }
 }

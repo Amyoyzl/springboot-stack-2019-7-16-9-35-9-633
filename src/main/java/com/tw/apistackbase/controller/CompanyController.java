@@ -39,4 +39,9 @@ public class CompanyController {
         return companyService.createCompany(company);
     }
 
+    @PutMapping("/companies/{id}")
+    public Company updateCompany(@RequestBody Company company, @PathVariable int id) {
+        return companyService.updateCompany(company, id);
+    }
+
 }

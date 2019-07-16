@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.*;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -79,9 +80,16 @@ public class CompanyControllerTest {
     }
 
     @Test
-    public void should_return_status_is_Ok_when_add_company() throws Exception {
+    public void should_return_status_is_isCreated_when_add_company() throws Exception {
         ResultActions result = mvc.perform(post("/companies").contentType("application/json")
                 .content("{companyName: alibaba,employeesNumber: 0,employees: []}"));
+        result.andExpect(status().isCreated());
+    }
+
+    @Test
+    public void should_return_status_is_Ok_when_update_company() throws Exception {
+        ResultActions result = mvc.perform(put("/companies").contentType("application/json")
+                .content("{companyName: OOCL,employeesNumber: 0,employees: []}"));
         result.andExpect(status().isOk());
     }
 
