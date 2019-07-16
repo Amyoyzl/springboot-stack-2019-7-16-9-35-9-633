@@ -28,4 +28,8 @@ public class CompanyRepository {
     public List<Company> findAll() {
         return new ArrayList<>(companies.values());
     }
+
+    public Company getById(int id) {
+        return companies.get(id);
+    }
 }

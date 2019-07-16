@@ -39,4 +39,17 @@ public class CompanyControllerTest {
         result.andExpect(status().isOk()).andExpect(content().json("[{companyName: OOCL, employeesNumber: 1, employees:" +
                 "[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]}]"));
     }
+
+    @Test
+    public void should_return_specific_company_when_give_a_company_id() throws Exception {
+        int id = 1;
+        Company company = new Company("OOCL", new Employee(1, "Steve", 34, "Male", 23000));
+
+        when(companyService.getCompany(id)).thenReturn(company);
+        ResultActions result = mvc.perform(get("/companies/{id}", id));
+
+        result.andExpect(status().isOk()).andExpect(content().json("{companyName: OOCL, employeesNumber: 1, employees:" +
+                "[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]}"));
+    }
+
 }
