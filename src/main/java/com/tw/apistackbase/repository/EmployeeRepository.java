@@ -25,4 +25,8 @@ public class EmployeeRepository {
     public List<Employee> getEmployees() {
         return new ArrayList<>(employees.values());
     }
+
+    public Employee getEmployee(int id) {
+        return employees.get(id);
+    }
 }

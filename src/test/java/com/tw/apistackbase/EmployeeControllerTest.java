@@ -42,4 +42,15 @@ public class EmployeeControllerTest {
         result.andExpect(status().isOk()).andExpect(content().json("[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]"));
     }
 
+    @Test
+    public void should_return_specific_employee_when_give_a_employee_id() throws Exception {
+        int id = 1;
+        Employee employee =  new Employee(1, "Steve", 34, "Male", 23000);
+
+        when(employeeService.getEmployee(id)).thenReturn(employee);
+        ResultActions result = mvc.perform(get("/employees/{id}", id));
+
+        result.andExpect(status().isOk()).andExpect(content().json("{id: 1, name: Steve, age: 34, gender: Male,salary: 23000}"));
+    }
+
 }
