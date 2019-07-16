@@ -1,5 +1,6 @@
 package com.tw.apistackbase.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Company {
@@ -7,13 +8,10 @@ public class Company {
     private int employeesNumber;
     private List<Employee> employees;
 
-    public Company() {
-    }
-
-    public Company(String companyName, List<Employee> employees) {
+    public Company(String companyName, Employee... employees) {
         this.companyName = companyName;
-        this.employeesNumber = employees.size();
-        this.employees = employees;
+        this.employees = Arrays.asList(employees);
+        this.employeesNumber = this.employees.size();
     }
 
     public String getCompanyName() {
