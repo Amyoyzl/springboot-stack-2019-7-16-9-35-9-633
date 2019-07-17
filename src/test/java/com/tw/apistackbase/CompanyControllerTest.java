@@ -1,5 +1,7 @@
 package com.tw.apistackbase;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.tw.apistackbase.controller.CompanyController;
 import com.tw.apistackbase.model.Company;
 import com.tw.apistackbase.model.Employee;
@@ -9,12 +11,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.*;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,65 +44,73 @@ public class CompanyControllerTest {
         when(companyService.getCompanies()).thenReturn(new ArrayList<>(companies.values()));
         ResultActions result = mvc.perform(get("/companies"));
 
-        result.andExpect(status().isOk()).andExpect(content().json("[{companyName: OOCL, employeesNumber: 1, employees:" +
-                "[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]}]"));
+        result.andExpect(status().isOk()).andExpect(jsonPath("$[0].companyName", is("OOCL")));
+        verify(companyService).getCompanies();
     }
 
     @Test
     public void should_return_specific_company_when_give_a_company_id() throws Exception {
-        int id = 1;
         Company company = new Company("OOCL", new Employee(1, "Steve", 34, "Male", 23000));
 
-        when(companyService.getCompany(id)).thenReturn(company);
-        ResultActions result = mvc.perform(get("/companies/{id}", id));
+        when(companyService.getCompany(anyInt())).thenReturn(company);
+        ResultActions result = mvc.perform(get("/companies/{id}", anyInt()));
 
-        result.andExpect(status().isOk()).andExpect(content().json("{companyName: OOCL, employeesNumber: 1, employees:" +
-                "[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]}"));
+        result.andExpect(status().isOk()).andExpect(jsonPath("$.companyName", is("OOCL")));
+        verify(companyService).getCompany(anyInt());
     }
 
     @Test
     public void should_return_corresponding_company_employees_when_give_a_company_id() throws Exception {
-        int id = 1;
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1, "Steve", 34, "Male", 23000));
 
-        when(companyService.getEmployees(id)).thenReturn(employees);
-        ResultActions result = mvc.perform(get("/companies/{id}/employees", id));
+        when(companyService.getEmployees(anyInt())).thenReturn(employees);
+        ResultActions result = mvc.perform(get("/companies/{id}/employees", anyInt()));
 
-        result.andExpect(status().isOk()).andExpect(content().json("[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]"));
+        result.andExpect(status().isOk()).andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].name", is("Steve")));
+        verify(companyService).getEmployees(anyInt());
     }
 
     @Test
     public void should_return_companies_when_give_page_and_pageSize() throws Exception {
-        int page = 1, pageSize = 3;
         Map<Integer, Company> companies = new HashMap<>();
         companies.put(1, new Company("OOCL", new Employee(1, "Steve", 34, "Male", 23000)));
 
-        when(companyService.getPageCompanies(page, pageSize)).thenReturn(new ArrayList<>(companies.values()));
-        ResultActions result = mvc.perform(get("/companies?page={page}&&pageSize={pageSize}", page, pageSize));
+        when(companyService.getPageCompanies(anyInt(), anyInt())).thenReturn(new ArrayList<>(companies.values()));
+        ResultActions result = mvc.perform(get("/companies", anyInt(), anyInt())
+                .param("page", "1").param("pageSize", "3"));
 
-        result.andExpect(status().isOk()).andExpect(content().json("[{companyName: OOCL, employeesNumber: 1, employees:" +
-                "[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]}]"));
+        result.andExpect(status().isOk()).andExpect(jsonPath("$[0].companyName", is("OOCL")))
+                .andExpect(jsonPath("$", hasSize(1)));
+        verify(companyService).getPageCompanies(anyInt(),anyInt());
     }
 
     @Test
     public void should_return_status_is_isCreated_when_add_company() throws Exception {
-        ResultActions result = mvc.perform(post("/companies").contentType("application/json")
-                .content("{companyName: alibaba,employeesNumber: 0,employees: []}"));
-        result.andExpect(status().isCreated());
+        Company company = new Company("OOCL", new Employee(1, "John", 24, "Male", 1400));
+        when(companyService.createCompany(any())).thenReturn(company);
+        ResultActions resultActions = mvc.perform(post("/companies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(company)));
+        resultActions.andExpect(status().isCreated()).andExpect(jsonPath("$.companyName", is("OOCL")));
     }
 
     @Test
     public void should_return_status_is_Ok_when_update_company() throws Exception {
-        ResultActions result = mvc.perform(put("/companies").contentType("application/json")
-                .content("{companyName: OOCL,employeesNumber: 0,employees: []}"));
-        result.andExpect(status().isOk());
+        int companyId = 1;
+        Company company = new Company();
+        company.setCompanyName("test");
+        when(companyService.updateCompany(any(), anyInt())).thenReturn(company);
+        ResultActions resultActions = mvc.perform(put("/companies/{companyId}", companyId)
+                .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(company)));
+        resultActions.andExpect(status().isOk()).andExpect(jsonPath("$.companyName", is("test")));
     }
 
     @Test
     public void should_return_status_is_Ok_when_delete_company() throws Exception {
         ResultActions result = mvc.perform(delete("/companies/1"));
-        result.andExpect(status().isOk());
+        result.andExpect(status().isNoContent());
     }
 
 }

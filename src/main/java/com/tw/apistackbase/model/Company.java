@@ -8,6 +8,9 @@ public class Company {
     private int employeesNumber;
     private List<Employee> employees;
 
+    public Company() {
+    }
+
     public Company(String companyName, Employee... employees) {
         this.companyName = companyName;
         this.employees = Arrays.asList(employees);

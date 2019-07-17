@@ -32,17 +32,10 @@ public class EmployeeRepository {
     }
 
     public List<Employee> getPageEmployees(int page, int pageSize) {
-        List<Employee> pageEmployees = new ArrayList<>();
-        List<Employee> employeeList = new ArrayList<>(employees.values());
-        int length = employeeList.size();
-        pageSize = pageSize * page > length ? length : pageSize;
-        for (int i = 0; i < pageSize; i++) {
-            pageEmployees.add(employeeList.get((page - 1) * pageSize + i));
-        }
-        return pageEmployees;
+        return employees.values().stream().skip((Math.max(0, page - 1) * pageSize)).limit(pageSize).collect(Collectors.toList());
     }
 
     public List<Employee> getEmployeesBySex(String gender) {
-        return employees.values().stream().filter(employee -> employee.getGender() == gender).collect(Collectors.toList());
+        return employees.values().stream().filter(employee -> gender.equals(employee.getGender())).collect(Collectors.toList());
     }
 }

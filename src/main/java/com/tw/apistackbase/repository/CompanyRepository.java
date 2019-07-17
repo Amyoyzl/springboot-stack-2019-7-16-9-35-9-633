@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class CompanyRepository {
@@ -19,10 +20,10 @@ public class CompanyRepository {
         companies.put(id++, new Company("OOCL",
                 new Employee(1, "Steve", 34, "Male", 23000),
                 new Employee(2, "John", 23, "Male", 12000),
-                new Employee(2, "Jimmy", 23, "Male", 10000),
-                new Employee(2, "Jerry", 23, "Male", 10000),
-                new Employee(2, "Laura", 23, "Female", 10000),
-                new Employee(2, "Sean", 23, "Male", 10000)
+                new Employee(3, "Jimmy", 23, "Male", 10000),
+                new Employee(4, "Jerry", 23, "Male", 10000),
+                new Employee(5, "Laura", 23, "Female", 10000),
+                new Employee(6, "Sean", 23, "Male", 10000)
         ));
     }
 
@@ -39,14 +40,7 @@ public class CompanyRepository {
     }
 
     public List<Company> getPageCompanies(int page, int pageSize) {
-        List<Company> pageCompanies = new ArrayList<>();
-        List<Company> companyList = new ArrayList<>(companies.values());
-        int length = companyList.size();
-        pageSize = pageSize * page > length ? length : pageSize;
-        for (int i = 0; i < pageSize; i++) {
-            pageCompanies.add(companyList.get(page * pageSize + i));
-        }
-        return pageCompanies;
+        return companies.values().stream().skip((Math.max(0, page-1) * pageSize)).limit(pageSize).collect(Collectors.toList());
     }
 
     public Company createCompany(Company company) {
@@ -58,7 +52,7 @@ public class CompanyRepository {
         return companies.put(id, company);
     }
 
-    public void deleteCompany(int id) {
-        companies.remove(id);
+    public Company deleteCompany(int id) {
+        return companies.remove(id);
     }
 }

@@ -23,8 +23,8 @@ public class EmployeeController {
         return employeeService.getEmployee(id);
     }
 
-    @GetMapping("/employees{page}{pageSize}")
-    public List<Employee> getPageCompanies(@RequestParam int page, @RequestParam int pageSize) {
+    @GetMapping(path = "/employees", params = {"page", "pageSize"})
+    public List<Employee> getPageEmployees(@RequestParam int page, @RequestParam int pageSize) {
         return employeeService.getPageEmployees(page, pageSize);
     }
 

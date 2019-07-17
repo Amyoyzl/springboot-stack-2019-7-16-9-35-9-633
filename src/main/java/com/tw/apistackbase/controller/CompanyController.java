@@ -4,6 +4,9 @@ import com.tw.apistackbase.model.Company;
 import com.tw.apistackbase.model.Employee;
 import com.tw.apistackbase.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +32,13 @@ public class CompanyController {
         return companyService.getEmployees(id);
     }
 
-    @GetMapping("/companies{page}{pageSize}")
+    @GetMapping(path = "/companies", params = {"page", "pageSize"})
     public List<Company> getPageCompanies(@RequestParam int page, @RequestParam int pageSize) {
         return companyService.getPageCompanies(page, pageSize);
     }
 
     @PostMapping("/companies")
+    @ResponseStatus(HttpStatus.CREATED)
     public Company addCompany(@RequestBody Company company) {
         return companyService.createCompany(company);
     }
@@ -45,8 +49,8 @@ public class CompanyController {
     }
 
     @DeleteMapping("/companies/{id}")
-    public void deleteCompany( @PathVariable int id) {
-        companyService.deleteCompany(id);
+    public ResponseEntity<Company> deleteCompany(@PathVariable int id) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(companyService.deleteCompany(id));
     }
 
 }
