@@ -13,14 +13,15 @@ import java.util.stream.Collectors;
 public class EmployeeRepository {
 
     private static Map<Integer, Employee> employees = new HashMap<>();
+    private static int id = 1;
 
     static {
-        employees.put(1, new Employee(1, "Steve", 34, "Male", 23000));
-        employees.put(2, new Employee(2, "John", 23, "Male", 12000));
-        employees.put(3, new Employee(3, "Jimmy", 23, "Male", 10000));
-        employees.put(4, new Employee(4, "Jerry", 23, "Male", 10000));
-        employees.put(5, new Employee(5, "Laura", 23, "Female", 10000));
-        employees.put(6, new Employee(6, "Sean", 23, "Male", 10000));
+        employees.put(id++, new Employee(1, "Steve", 34, "Male", 23000));
+        employees.put(id++, new Employee(2, "John", 23, "Male", 12000));
+        employees.put(id++, new Employee(3, "Jimmy", 23, "Male", 10000));
+        employees.put(id++, new Employee(4, "Jerry", 23, "Male", 10000));
+        employees.put(id++, new Employee(5, "Laura", 23, "Female", 10000));
+        employees.put(id++, new Employee(6, "Sean", 23, "Male", 10000));
     }
 
     public List<Employee> getEmployees() {
@@ -37,5 +38,9 @@ public class EmployeeRepository {
 
     public List<Employee> getEmployeesBySex(String gender) {
         return employees.values().stream().filter(employee -> gender.equals(employee.getGender())).collect(Collectors.toList());
+    }
+
+    public Employee addEmployee(Employee employee) {
+        return employees.put(id++, employee);
     }
 }

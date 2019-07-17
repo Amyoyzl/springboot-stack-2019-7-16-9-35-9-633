@@ -7,3 +7,16 @@ logging:
         springframework:
           web: DEBUG
         hibernate: ERROR
+server:
+  port: 8089
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+    datasource:
+      url: jsbc:h2:file:./h2/oocl-agile-fs
+      driverClassName: org.h2.Driver
+      username: root
+      password: 123456

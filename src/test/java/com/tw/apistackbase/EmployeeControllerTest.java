@@ -1,5 +1,6 @@
 package com.tw.apistackbase;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tw.apistackbase.controller.EmployeeController;
 import com.tw.apistackbase.model.Employee;
 import com.tw.apistackbase.service.EmployeeService;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -17,8 +20,7 @@ import java.util.*;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -87,6 +89,17 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$[0].name", is("Steve")))
                 .andExpect(jsonPath("$[1].age", is(23)));
         verify(employeeService).getEmployeesBySex("Female");
+    }
+
+    @Test
+    public void should_add_an_employee() throws Exception {
+        Employee employee = new Employee(1, "Steve", 34, "Male", 23000);
+        when(employeeService.addEmployee(any())).thenReturn(employee);
+        ResultActions resultActions = mvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(employee)));
+        resultActions.andExpect(status().isCreated()).andExpect(jsonPath("$.name", is("Steve")))
+                .andExpect(jsonPath("$.salary", is(23000)));
+        verify(employeeService).addEmployee(any());
     }
 
 }
