@@ -49,4 +49,8 @@ public class EmployeeRepository {
         employees.put(id, employee);
         return employee;
     }
+
+    public Employee delete(int id) {
+        return employees.remove(id);
+    }
 }

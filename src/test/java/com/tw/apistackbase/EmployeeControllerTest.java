@@ -115,4 +115,12 @@ public class EmployeeControllerTest {
         verify(employeeService).updateEmployee(any(), anyInt());
     }
 
+    @Test
+    public void should_return_status_is_noContent_when_delete_employee() throws Exception {
+        Employee employee = new Employee(1, "Steve", 34, "Male", 23000);
+        when(employeeService.delete(anyInt())).thenReturn(employee);
+        ResultActions result = mvc.perform(delete("/employees/{id}", anyInt()));
+        result.andExpect(status().isNoContent());
+    }
+
 }
