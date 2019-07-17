@@ -46,6 +46,7 @@ public class EmployeeControllerTest {
 
         result.andExpect(status().isOk())
                 .andExpect(content().json("[{id: 1, name: Steve, age: 34,gender: Male,salary: 23000}]"));
+        verify(employeeService).getEmployees();
     }
 
     @Test
@@ -73,6 +74,7 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].name", is("Steve")))
                 .andExpect(jsonPath("$[1].age", is(23)));
+        verify(employeeService).getPageEmployees(anyInt(), anyInt());
     }
 
     @Test
@@ -100,6 +102,17 @@ public class EmployeeControllerTest {
         resultActions.andExpect(status().isCreated()).andExpect(jsonPath("$.name", is("Steve")))
                 .andExpect(jsonPath("$.salary", is(23000)));
         verify(employeeService).addEmployee(any());
+    }
+
+    @Test
+    public void should_update_an_employee() throws Exception {
+        Employee employee = new Employee(1, "Steve", 34, "Male", 23000);
+        when(employeeService.updateEmployee(any(), anyInt())).thenReturn(employee);
+        ResultActions resultActions = mvc.perform(put("/employees/{id}", 1).contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(employee)));
+        resultActions.andExpect(status().isOk()).andExpect(jsonPath("$.name", is("Steve")))
+                .andExpect(jsonPath("$.salary", is(23000)));
+        verify(employeeService).updateEmployee(any(), anyInt());
     }
 
 }

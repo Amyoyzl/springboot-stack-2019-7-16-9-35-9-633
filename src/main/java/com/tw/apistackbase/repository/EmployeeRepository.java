@@ -41,6 +41,12 @@ public class EmployeeRepository {
     }
 
     public Employee addEmployee(Employee employee) {
-        return employees.put(id++, employee);
+        employees.put(id++, employee);
+        return employee;
+    }
+
+    public Employee updateEmployee(Employee employee, int id) {
+        employees.put(id, employee);
+        return employee;
     }
 }

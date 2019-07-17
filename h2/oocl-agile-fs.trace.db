@@ -1,0 +1,99 @@
+2019-07-17 14:35:27 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""COMPANY""  
+""ID""[*] INT AUTO_INCREMENT PRIMARY KEY,
+""NAME"" VARCHAR 255,
+""ADDRESS"" VARCHAR 255,
+  "; SQL statement:
+create table `company`  
+`id` int auto_increment primary key,
+`name` varchar 255,
+`address` varchar 255,
+  [42000-197]
+2019-07-17 14:35:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""COMPANY""  
+""ID""[*] INT AUTO_INCREMENT PRIMARY KEY,
+""NAME"" VARCHAR 255 NOT NULL,
+""ADDRESS"" VARCHAR 255,
+  "; SQL statement:
+create table `company`  
+`id` int auto_increment primary key,
+`name` varchar 255 not null,
+`address` varchar 255,
+  [42000-197]
+2019-07-17 14:36:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""COMPANY""  
+""ID""[*] INT AUTO_INCREMENT PRIMARY KEY,
+""NAME"" VARCHAR 255 NOT NULL,
+""ADDRESS"" VARCHAR 255,
+  "; SQL statement:
+create table `company`  
+`id` int auto_increment primary key,
+`name` varchar 255 not null,
+`address` varchar 255,
+  [42000-197]
+2019-07-17 14:37:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE""COMPANY""  
+""ID""[*] INT AUTO_INCREMENT PRIMARY KEY,
+""NAME"" VARCHAR 255 NOT NULL,
+""ADDRESS"" VARCHAR 255,
+  "; SQL statement:
+CREATE TABLE`company`  
+`id` int auto_increment PRIMARY KEY,
+`name` varchar 255 NOT NULL,
+`address` varchar 255,
+  [42000-197]
+2019-07-17 14:38:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE""COMPANY""  
+""ID""[*] INT AUTO_INCREMENT PRIMARY KEY,
+""NAME"" VARCHAR(255) NOT NULL,
+""ADDRESS"" VARCHAR(255),
+  "; SQL statement:
+CREATE TABLE`company`  
+`id` int auto_increment PRIMARY KEY,
+`name` varchar(255) NOT NULL,
+`address` varchar(255),
+  [42000-197]
+2019-07-17 14:38:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE""COMPANY""  
+""ID""[*] INT AUTO_INCREMENT PRIMARY KEY,
+""NAME"" VARCHAR(255) NOT NULL,
+""ADDRESS"" VARCHAR(255),
+  "; SQL statement:
+CREATE TABLE`company`  
+`id` int auto_increment PRIMARY KEY,
+`name` varchar(255) NOT NULL,
+`address` varchar(255),
+  [42000-197]
+2019-07-17 14:38:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE""COMPANY""  
+""ID""[*] INT AUTO_INCREMENT PRIMARY KEY,
+""NAME"" VARCHAR(255) NOT NULL,
+""ADDRESS"" VARCHAR(255),
+  "; SQL statement:
+CREATE TABLE`company`  
+`id` int auto_increment PRIMARY KEY,
+`name` varchar(255) NOT NULL,
+`address` varchar(255),
+  [42000-197]
+2019-07-17 14:43:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""EMPLOYEE"" (
+    ""ID"" INT AUTO_INCREMENT PRIMARY KEY,
+    ""NAME"" VARCHAR(255) NOT NULL,
+    ""COMPANYID"" INT FOREIGN[*] KEY (COMPANYID) REFERENCES COMPANY (ID),
+) "; expected "(, FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `employee` (
+    `id` INT auto_increment PRIMARY KEY,
+    `name` varchar(255) NOT NULL,
+    `companyId` INT FOREIGN KEY (companyId) REFERENCES company (id),
+) [42001-197]
+2019-07-17 14:43:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""EMPLOYEE"" (
+    ""ID"" INT AUTO_INCREMENT PRIMARY KEY,
+    ""NAME"" VARCHAR(255) NOT NULL,
+    ""COMPANYID"" INT FOREIGN[*] KEY (COMPANYID) REFERENCES COMPANY (ID)
+) "; expected "(, FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `employee` (
+    `id` INT auto_increment PRIMARY KEY,
+    `name` varchar(255) NOT NULL,
+    `companyId` INT FOREIGN KEY (companyId) REFERENCES company (id)
+) [42001-197]
